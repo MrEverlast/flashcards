@@ -1,7 +1,7 @@
 <div id="login_modal" class="ui tiny modal">
     <div class="header center">Login</div>
     <div class="content">
-        <form method="post" class="ui form" autocomplete="on">
+        <form action="component/backend/account.php" method="post" class="ui form" autocomplete="on">
             <div class="required field">
                 <label>Email</label>
                 <input type="email" name="email" placeholder="example@example.com">

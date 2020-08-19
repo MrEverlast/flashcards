@@ -1,5 +1,5 @@
 <div class="ui left vertical inverted sidebar labeled icon menu visible" style="width: 92px !important;">
-  <a class="item">
+  <a href="/flashcards" class="item">
     <i class="home icon"></i>
     Home
   </a>

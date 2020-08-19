@@ -10,6 +10,10 @@ define('ROOTPATH', __DIR__);
     <?php include_once(ROOTPATH."/component/sidebar.php"); ?>
     <?php include_once(ROOTPATH."/component/modal/signin.php"); ?>
     <?php include_once(ROOTPATH."/component/modal/login.php"); ?>
+    <div style="margin-top: 71px;"></div>
+    <h1 class="ui center aligned icon header">
+        Please login to get access to your decks
+    </h1>
     
 </body>
 </html>
