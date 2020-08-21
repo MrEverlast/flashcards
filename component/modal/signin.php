@@ -1,29 +1,69 @@
 <div id="signin_modal" class="ui tiny modal">
     <div class="header center">Sign-in</div>
     <div class="content">
-        <form action="component/backend/account.php" method="post" class="ui form" autocomplete="on">
+        <form id="form_signin" class="ui form" method="post" autocomplete="on">
             <div class="required field">
                 <label>Email</label>
-                <input type="email" name="email" placeholder="example@example.com">
+                <input class="signin" type="email" name="email" placeholder="example@example.com">
             </div>
             <div class="required field">
                 <label>Username</label>
-                <input type="text" name="username" placeholder="Username321">
+                <input class="signin" type="text" name="username" placeholder="Username321">
             </div>
             <div class="required field">
                 <label>Password</label>
-                <input type="password" name="new-password" placeholder="Password">
+                <input class="signin" type="password" name="new_password" placeholder="Password">
             </div>
             <div class="required field">
                 <label>Confirm password</label>
-                <input type="password" name="confirm-password" placeholder="Confirm password">
+                <input class="signin" type="password" name="confirm_password" placeholder="Confirm password">
             </div>
+            <div id="message_signin_error" class="ui error message"></div>
             <button class="ui button" type="submit">Submit</button>
         </form>
     </div>
 </div>
 <script>
-    $('#signin_modal')
-        .modal('attach events', '#signin_button', 'show')
-    ;
+    $('#signin_modal').modal('attach events', '#signin_button', 'show');
+    $("#form_signin").submit(function(event) {
+        let email            = $(".signin[name='email']").first().val();
+        let username         = $(".signin[name='username']").first().val();
+        let new_password     = $(".signin[name='new_password']").first().val();
+        let confirm_password = $(".signin[name='confirm_password']").first().val();
+        let error            = $("#message_signin_error");
+        event.preventDefault();
+
+        if (email.trim() && username.trim() && new_password.trim() && confirm_password.trim()){ 
+            if (new_password === confirm_password) {
+                $(".signin[name='new_password']").parent().removeClass("error");
+                $(".signin[name='confirm_password']").parent().removeClass("error");
+                error.removeClass("visible");
+                
+                $.ajax({
+                    type: "POST",
+                    url: "component/backend/account.php",
+                    data: { 
+                        email : email,
+                        username : username,
+                        new_password : new_password
+                        },
+                    success: (data) => {
+                        console.log(data);
+                        if (data === "account_error") {
+                            error.html("<p>Email or username are already taken.</p>");
+                            error.addClass("visible");
+                        } else {
+                            location.reload();
+                        }
+                    }
+                });
+
+            } else {
+                $(".signin[name='new_password']").parent().addClass("error");
+                $(".signin[name='confirm_password']").parent().addClass("error");
+                error.html("<p>The two password don't match.</p>");
+                error.addClass("visible");
+            }
+        }
+    });
 </script>
