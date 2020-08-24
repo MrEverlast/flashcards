@@ -1,4 +1,5 @@
 <div id="signin_modal" class="ui tiny modal">
+    <i class="close icon"></i>
     <div class="header center">Sign-in</div>
     <div class="content">
         <form id="form_signin" class="ui form" method="post" autocomplete="on">
@@ -24,7 +25,9 @@
     </div>
 </div>
 <script>
-    $('#signin_modal').modal('attach events', '#signin_button', 'show');
+    $('#signin_modal').modal({
+        closable: false
+    }).modal('attach events', '#signin_button', 'show');
     $("#form_signin").submit(function(event) {
         let email            = $(".signin[name='email']").first().val();
         let username         = $(".signin[name='username']").first().val();
@@ -48,12 +51,17 @@
                         new_password : new_password
                         },
                     success: (data) => {
-                        console.log(data);
                         if (data === "account_error") {
                             error.html("<p>Email or username are already taken.</p>");
                             error.addClass("visible");
-                        } else {
+                        } else if (data === "success") {
                             location.reload();
+                        } else if (data === "account_length") {
+                            error.html("<p>Inputs lenghts are not valid.</p>");
+                            error.addClass("visible");
+                        } else {
+                            error.html("<p>Error.</p>");
+                            error.addClass("visible");
                         }
                     }
                 });

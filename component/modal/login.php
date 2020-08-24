@@ -1,4 +1,5 @@
 <div id="login_modal" class="ui tiny modal">
+    <i class="close icon"></i>
     <div class="header center">Login</div>
     <div class="content">
         <form id="form_login" method="post" class="ui form" autocomplete="on">
@@ -16,7 +17,9 @@
     </div>
 </div>
 <script>
-    $('#login_modal').modal('attach events', '#login_button', 'show');
+    $('#login_modal').modal({
+        closable: false
+    }).modal('attach events', '#login_button', 'show');
     $("#form_login").submit(function(event) {
         let email            = $(".login[name='email']").first().val();
         let new_password     = $(".login[name='new_password']").first().val();
