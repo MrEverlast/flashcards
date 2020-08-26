@@ -31,7 +31,7 @@
                             $.ajax({
                                 url: "component/backend/disconnect.php"
                                 }).done(() => {
-                                location.reload();
+                                location.replace("/flashcards/");
                             });
                         });
                         

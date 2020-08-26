@@ -1,6 +1,7 @@
 <?php
 session_start();
 define('ROOTPATH', __DIR__);
+$dbh = new PDO('mysql:host=127.0.0.1;dbname=flashcards;charset=utf8', 'root', '');
 
 ?>
 
@@ -19,44 +20,42 @@ define('ROOTPATH', __DIR__);
             <h1 class="ui center aligned icon header">
                 Please login to get access to your decks
             </h1>
+    <?php 
+        } else if (isset($_GET["deck_id"])) {
             
-    <?php } else { ?>
-        <div id="display_main" class="ui container">
-            <div class="ui four cards">
-            <?php 
-                try {
-                    $dbh = new PDO('mysql:host=127.0.0.1;dbname=flashcards;charset=utf8', 'root', '');
+            include_once "component/display/deck.php";
 
-                    $sth = $dbh->prepare("SELECT `id`, `name`, `description` FROM deck WHERE `id_account` = ?");
-                    $sth->execute(array($_SESSION["id"]));
-                    $data = $sth->fetchAll();
-                    foreach ($data as $key => $value) {
-                        ?>
-                        <a class="ui card" href="?deck_id=<?= $value['id']; ?>">
-                            <div class="content">
-                            <!-- <i class="red right floated icon close"></i> -->
-                            <div class="header"><?= $value['name']; ?></div>
-                            <div class="description">
-                                <?= $value['description']; ?>
-                            </div>
-                            </div>
-                            <div class="ui bottom attached button" data-id="<?= $value['id']; ?>">
-                            <i class="add icon"></i>
-                            Add card
-                            </div>
-                        </a>
-                        <?php
-                    }
+        } else { ?>
+            <div id="display_main" class="ui container">
+                <div class="ui four cards">
+                <?php 
+                        //$dbh = new PDO('mysql:host=127.0.0.1;dbname=flashcards;charset=utf8', 'root', '');
 
-                } catch (Exception $e) {
-                    die('Erreur : ' . $e->getMessage());
-                }
-
-            ?>
+                        $sth = $dbh->prepare("SELECT `id`, `name`, `description` FROM deck WHERE `id_account` = ?");
+                        $sth->execute(array($_SESSION["id"]));
+                        $data = $sth->fetchAll();
+                        foreach ($data as $key => $value) {
+                            ?>
+                            <a class="ui card" href="?deck_id=<?= $value['id']; ?>">
+                                <div class="content">
+                                <!-- <i class="red right floated icon close"></i> -->
+                                <div class="header">
+                                    <?= $value['name']; ?>
+                                </div>
+                                <div class="description">
+                                    <?= $value['description']; ?>
+                                </div>
+                                </div>
+                            </a>
+                            <?php
+                        }
+                ?>
+                </div>
+                
             </div>
-            
-        </div>
-    <?php } ?>
+    <?php 
+        } 
+    ?>
     
     
 </body>
