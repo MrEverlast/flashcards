@@ -12,6 +12,10 @@ $dbh = new PDO('mysql:host=127.0.0.1;dbname=flashcards;charset=utf8', 'root', ''
     <?php include_once(ROOTPATH."/component/header.php"); ?>
     <?php include_once(ROOTPATH."/component/sidebar.php"); ?>
     <?php 
+
+        $study = FALSE;
+        if (isset($_GET["study"])) $study = $_GET["study"];
+
         if (!isset($_SESSION["username"]) && !isset($_SESSION["email"])) {
             include_once(ROOTPATH."/component/modal/signin.php");
             include_once(ROOTPATH."/component/modal/login.php"); 
@@ -21,10 +25,10 @@ $dbh = new PDO('mysql:host=127.0.0.1;dbname=flashcards;charset=utf8', 'root', ''
                 Please login to get access to your decks
             </h1>
     <?php 
-        } else if (isset($_GET["deck_id"])) {
-            
+        } else if (isset($_GET["deck_id"]) && $study) { 
+            include_once "component/display/study.php";
+        } else if (isset($_GET["deck_id"])) {    
             include_once "component/display/deck.php";
-
         } else { ?>
             <div id="display_main" class="ui container">
                 <div class="ui four cards">

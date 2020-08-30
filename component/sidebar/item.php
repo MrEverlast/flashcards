@@ -7,7 +7,7 @@
         $data = $sth->fetchAll();
         foreach ($data as $key => $value) {
             ?>
-            <a class="item" href="?deck_id=<?= $value["id"] ?>">
+            <a class="item <?= isDeckActive($_GET["deck_id"], $value["id"]); ?>" href="?deck_id=<?= $value["id"] ?>">
                 <i class="th icon"></i>
                 <?= $value["name"] ?>
             </a> 
@@ -18,6 +18,9 @@
         die('Erreur : ' . $e->getMessage());
     }
 
+    function isDeckActive($deck_id, $deck_value_id) {
+        if ($deck_id == $deck_value_id) return "active";
+    }
 ?>
   
  
