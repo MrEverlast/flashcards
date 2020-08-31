@@ -2,7 +2,7 @@
     // INSERT INTO `account` (`id`, `username`, `email`, `password`) VALUES (NULL, 'Everlast', 'max.brooks@gmail.com', 'test');
     try
     {
-        $dbh = new PDO('mysql:host=127.0.0.1;dbname=flashcards;charset=utf8', 'root', '');
+        require_once "dbh.php";
         // * Sign-in * //
 
         if (isset($_POST["username"])) $username   = htmlspecialchars($_POST["username"]);

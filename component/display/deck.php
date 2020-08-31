@@ -58,10 +58,25 @@ if ($data_deck["name"]) { ?>
     <div class="ui cards three">
         <?php 
             foreach ($data_cards as $key => $value) {
+                $date = new DateTime("NOW");
+                $target = new DateTime($value["review_date"]);
+
+                $interval = $date->diff($target);
+                // print_r($interval);
                 ?>
                     <div class="card <?= card_status_color($value["status"]); ?>" data-tooltip="<?= $value["back"]; ?>" data-inverted="" data-position="bottom center">
                         <div class="content">
                         <div class="ui <?= card_status_color($value["status"]); ?> top attached label tiny"><?= card_status_text($value["status"]); ?></div>
+                        <div class="ui <?= card_status_color($value["status"]); ?> top right attached label tiny">
+                            <?php 
+                                echo $target->format('Y-m-d');
+                                if ($date < $target) {
+                                    $interval->format('%d') == 0 ? print(" in 1d") : print(" in " . $interval->format('%d') . "d");
+                                } else {
+                                    echo " ready";
+                                }
+                            ?>
+                        </div>
                             <div class="ui header">
                             <?= $value["front"]; ?>
                             </div>
@@ -93,7 +108,7 @@ function get_data_deck($dbh) {
 
 function get_data_cards($dbh) {
 
-    $query = "SELECT `front`, `back`, `status` FROM `card` WHERE `id_deck` = ?";
+    $query = "SELECT `front`, `back`, `status`, CAST(`review_date` AS DATE) AS `review_date` FROM `card` WHERE `id_deck` = ? ORDER BY `status`, `review_date` ASC ";
 
     $sth = $dbh->prepare($query);
     $sth->execute(array($_GET["deck_id"]));

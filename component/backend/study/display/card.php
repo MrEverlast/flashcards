@@ -20,10 +20,10 @@ if (isset($_POST["card_id"]) && isset($_POST["card_front"]) && isset($_POST["car
                 </div>
 
                 <div id="valid_study" class="ui container message hidden" data-status="<?= $_POST["card_status"] ?>">
-                    <div onclick="button_again(<?= $_POST['card_status'] ?>)" id="button_again" class="ui button basic red">Again < 10min </div>
-                    <?php if($_POST["card_status"] != 0) { ?> <div id="button_hard" class="ui button basic orange">Hard</div> <?php } ?>
-                    <div onclick="button_good(<?= $_POST['card_status'] ?>)" id="button_good" class="ui button basic blue">Good</div>
-                    <div id="button_easy" class="ui button basic green">Easy</div>
+                    <div onclick="button_again()" id="button_again" class="ui button basic red">Again < 10min </div>
+                    <?php if($_POST["card_status"] != 0) { ?> <div onclick="button_hard()" id="button_hard" class="ui button basic orange">Hard</div> <?php } ?>
+                    <div onclick="button_good()" id="button_good" class="ui button basic blue">Good</div>
+                    <div onclick="button_easy()" id="button_easy" class="ui button basic green">Easy</div>
                 </div>
 
         </div>

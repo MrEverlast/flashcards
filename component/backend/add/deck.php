@@ -2,7 +2,7 @@
 session_start();
     try {
 
-        $dbh = new PDO('mysql:host=127.0.0.1;dbname=flashcards;charset=utf8', 'root', '');
+        require_once "../dbh.php";
 
         if (isset($_POST["name"]))         $name         = htmlspecialchars($_POST["name"]);
         if (isset($_POST["description"]))  $description  = htmlspecialchars($_POST["description"]);

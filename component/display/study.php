@@ -41,40 +41,78 @@
             }
         });
     });
-
-    let button_again = (status) => {
+// BUTTON AGAIN
+    let button_again = () => {
+        let card = cards[0];
         let button = "again";
         let ease = 250;
-        // $.ajax({
-        //     type: "POST",
-        //     url: "component/backend/study/buttons.php",
-        //     data: { 
-        //         button_pressed : button,
-        //         ease : ease
-        //         },
-        //     success: (data) => {
-        //            start_session_div.html(data);
-        //     }
-        // });
-        cards.push(cards.shift());
-        console.log(cards);
+        let day = 0;
+        $.ajax({
+            type: "POST",
+            url: "component/backend/study/buttons.php",
+            data: { 
+                button : button,
+                card_id : card.id,
+                day : day,
+                ease : ease,
+                status : card.status
+                },
+            success: (data) => {
+                cards[0].status = "1";
+                cards.push(cards.shift());
+                display_card(cards, 0);
+            }
+        });
+        
     };
-
-    let button_good = (status) => {
+// BUTTON GOOD
+    let button_good = () => {
+        let card = cards[0];
         let button = "good";
-
-        cards.splice(0, 1);
-        display_card(cards, 0);
-        console.log(cards);
+        $.ajax({
+            type: "POST",
+            url: "component/backend/study/buttons.php",
+            data: { 
+                button : button,
+                card_id : card.id,
+                day : card.day,
+                ease : card.ease,
+                status : card.status
+                },
+            success: (data) => {
+                if (card.status != 0) {
+                    cards.splice(0, 1);
+                } else {
+                    cards[0].status = "1";
+                    cards.push(cards.shift());
+                }
+                    display_card(cards, 0);
+                console.log(data);
+            }
+        });
     };
-
+// BUTTON EASY
     let button_easy = (status) => {
+        let card = cards[0];
         let button = "easy";
-
-        cards.splice(0, 1);
-        console.log(cards);
+        $.ajax({
+            type: "POST",
+            url: "component/backend/study/buttons.php",
+            data: { 
+                button : button,
+                card_id : card.id,
+                day : card.day,
+                ease : card.ease,
+                status : card.status
+                },
+            success: (data) => {
+                cards.splice(0, 1);
+                display_card(cards, 0);
+                console.log(cards);
+            }
+        });
     };
-
+// BUTTON HARD
     let button_hard = (status) => {
         let button = "hard";
 

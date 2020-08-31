@@ -1,7 +1,7 @@
 <?php 
 session_start();
     if (isset($_POST["deck_id"]) && isset($_POST["exec_script"])) {
-        $dbh = new PDO('mysql:host=127.0.0.1;dbname=flashcards;charset=utf8', 'root', '');
+        require_once "../dbh.php";
         $data_deck = get_data_deck($dbh, $_POST["deck_id"]);
 
         switch ($_POST["exec_script"]) {
@@ -29,11 +29,11 @@ session_start();
 
         $query  =  "(SELECT *
                     FROM `card`
-                    WHERE `id_deck` = $deck_id AND `review_date` < CURRENT_TIMESTAMP AND `status` = 0 LIMIT $session_card)
+                    WHERE `id_deck` = $deck_id AND `review_date` < NOW() + INTERVAL 1 HOUR AND `status` = 0 LIMIT $session_card)
                     UNION ALL
                     (SELECT *
                     FROM `card`
-                    WHERE `id_deck` = $deck_id AND `review_date` < CURRENT_TIMESTAMP AND `status` = 1 OR `status` = 2)";
+                    WHERE `id_deck` = $deck_id AND `review_date` < NOW() + INTERVAL 1 HOUR AND (`status` = 1 OR `status` = 2)) ORDER BY RAND()";
 
         $sth = $dbh->prepare($query);
         $sth->execute();

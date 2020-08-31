@@ -1,7 +1,7 @@
 <?php
 session_start();
 define('ROOTPATH', __DIR__);
-$dbh = new PDO('mysql:host=127.0.0.1;dbname=flashcards;charset=utf8', 'root', '');
+require_once "component/backend/dbh.php";
 
 ?>
 
@@ -33,7 +33,6 @@ $dbh = new PDO('mysql:host=127.0.0.1;dbname=flashcards;charset=utf8', 'root', ''
             <div id="display_main" class="ui container">
                 <div class="ui four cards">
                 <?php 
-                        //$dbh = new PDO('mysql:host=127.0.0.1;dbname=flashcards;charset=utf8', 'root', '');
 
                         $sth = $dbh->prepare("SELECT `id`, `name`, `description` FROM deck WHERE `id_account` = ?");
                         $sth->execute(array($_SESSION["id"]));
